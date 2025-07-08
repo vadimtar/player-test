@@ -143,7 +143,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 20px;
+            margin-bottom: 20px;
             width: 100%;
         }
 
@@ -545,7 +545,19 @@
                 current = current[keys[i]];
             }
 
-            current[keys[keys.length - 1]] = value;
+            // Convert numeric values for specific fields
+            const numericFields = ['width', 'height', 'playerType', 'startVolume', 'waterfallCycles', 'marginBottom'];
+            const stickyNumericFields = ['stickyMode', 'stickyPosition'];
+            
+            const lastKey = keys[keys.length - 1];
+            
+            if (numericFields.includes(lastKey)) {
+                current[lastKey] = Number(value);
+            } else if (keys.includes('stickyConfig') && stickyNumericFields.includes(lastKey)) {
+                current[lastKey] = Number(value);
+            } else {
+                current[lastKey] = value;
+            }
         }
 
         getArrayValues(selector) {
