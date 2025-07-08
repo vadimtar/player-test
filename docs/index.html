@@ -465,6 +465,9 @@
 
             this.initializeEventListeners();
             this.setupArrayInputs();
+            
+            // Load player with default configuration on page load
+            this.loadPlayerWithDefaults();
         }
 
         initializeEventListeners() {
@@ -638,6 +641,64 @@
             document.body.appendChild(script);
         }
 
+        getDefaultConfig() {
+            return {
+                content: true,
+                width: 640,
+                height: 480,
+                playerType: 1,
+                startVolume: 1,
+                autoplay: true,
+                showUnmuteButton: true,
+                showTitle: false,
+                contentPlayerConfig: {
+                    showVolumeSlider: true,
+                    showDuration: false,
+                    showCountdown: true
+                },
+                adsPlayerConfig: {
+                    showVolumeSlider: true,
+                    showDuration: false,
+                    showCountdown: true
+                },
+                stickyConfig: {
+                    stickyMode: 3,
+                    stickyPosition: 1,
+                    marginBottom: 0
+                },
+                adsConfig: {
+                    tagURL: 'https://vadimtar.github.io/player-test/dist/tag_inline.json',
+                    preroll: true,
+                    postroll: false,
+                    midrollCuePoints: [],
+                    waterfallCycles: 3,
+                    extraTrackers: []
+                }
+            };
+        }
+
+        loadPlayerWithDefaults() {
+            try {
+                const defaultConfig = this.getDefaultConfig();
+                
+                // Set the global config that FAPlayer will read
+                window.FAPlayerConfig = defaultConfig;
+
+                // Update player container size
+                const playerContainer = document.getElementById('mainContainer');
+                playerContainer.style.width = defaultConfig.width + 'px';
+                playerContainer.style.height = defaultConfig.height + 'px';
+
+                // Load the player script
+                this.loadPlayerScript();
+                this.playerInitialized = true;
+
+            } catch (error) {
+                console.error('Error loading player with defaults:', error);
+                this.showStatus('Error loading player with default configuration: ' + error.message, 'error');
+            }
+        }
+
         reloadPlayer() {
             // Remove existing player script
             const existingScript = document.querySelector('script[src*="fa_p_x13.js"]');
@@ -655,14 +716,6 @@
             }, 100);
         }
     }
-
-    setTimeout(() => {
-        const script = document.createElement('script');
-        script.src = './dist/fa_p_x13.js';
-        script.setAttribute('tag', 'https://vadimtar.github.io/player-test/dist/tag_inline.json');
-        script.setAttribute('video-element', 'mainContainer');
-        document.body.appendChild(script);
-    }, 50);
 
     // Initialize the test page when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
