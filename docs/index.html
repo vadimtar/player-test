@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAPlayer Test Page</title>
+    <link rel="stylesheet" href="./dist/fa_p_x13.css" />
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -640,7 +641,7 @@
         loadPlayerScript() {
             const script = document.createElement('script');
             script.src = './dist/fa_p_x13.js';
-            script.setAttribute('tag', 'http://localhost:8080/mock/tag_inline.json');
+            script.setAttribute('tag', 'https://vadimtar.github.io/player-test/dist/tag_inline.json');
             script.setAttribute('video-element', 'mainContainer');
             document.body.appendChild(script);
         }
