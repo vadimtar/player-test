@@ -120,11 +120,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 400px;
             background: #f8f9fa;
             border-radius: 8px;
             border: 1px solid #e9ecef;
+            padding-top: 20px;
         }
 
         .player-container {
@@ -654,6 +655,14 @@
             }, 100);
         }
     }
+
+    setTimeout(() => {
+        const script = document.createElement('script');
+        script.src = './dist/fa_p_x13.js';
+        script.setAttribute('tag', 'https://vadimtar.github.io/player-test/dist/tag_inline.json');
+        script.setAttribute('video-element', 'mainContainer');
+        document.body.appendChild(script);
+    }, 50);
 
     // Initialize the test page when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
