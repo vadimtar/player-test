@@ -15,7 +15,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            /*max-width: 1200px;*/
             margin: 0 auto;
             background: white;
             border-radius: 12px;
@@ -44,12 +44,13 @@
 
         .content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 0.3fr 1fr;
             gap: 30px;
             padding: 30px;
         }
 
         .form-section {
+            max-width: 300px;
             background: #f8f9fa;
             padding: 25px;
             border-radius: 8px;
@@ -253,11 +254,6 @@
                     <h3>Basic Settings</h3>
 
                     <div class="form-group">
-                        <label for="holder">Holder Element ID:</label>
-                        <input type="text" id="holder" name="holder" value="mainContainer">
-                    </div>
-
-                    <div class="form-group">
                         <label for="content">Content Mode:</label>
                         <select id="content" name="content">
                             <option value="true">Enabled</option>
@@ -295,10 +291,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="viewability">Viewability Threshold:</label>
-                        <input type="number" id="viewability" name="viewability" value="0" min="0" max="100">
-                    </div>
 
                     <div class="form-group">
                         <div class="checkbox-group">
@@ -403,7 +395,7 @@
 
                     <div class="form-group">
                         <label for="tagURL">Tag URL:</label>
-                        <input type="url" id="tagURL" name="adsConfig.tagURL" value="http://localhost:8080/mock/tag_inline.json" placeholder="https://example.com/ad-tag.xml">
+                        <input type="url" id="tagURL" name="adsConfig.tagURL" value="https://vadimtar.github.io/player-test/dist/tag_inline.json" placeholder="https://example.com/ad-tag.xml">
                     </div>
 
                     <div class="form-group">
@@ -421,19 +413,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="waterfallCycles">Waterfall Cycles:</label>
-                        <input type="number" id="waterfallCycles" name="adsConfig.waterfallCycles" value="3" min="1" max="10">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Midroll Cue Points:</label>
+                        <label>Midroll Cue Points: (Use seconds, or percentage</label>
                         <div id="midrollCuePoints">
                             <div class="array-input">
-                                <input type="text" placeholder="30 or '00:30'" class="cue-point-input">
+                                <input type="text" placeholder="30 or 50%" class="cue-point-input">
                                 <button type="button" class="remove-cue-point">Remove</button>
                             </div>
                         </div>
                         <button type="button" class="add-item-btn" id="addCuePoint">Add Cue Point</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="waterfallCycles">Waterfall Cycles:</label>
+                        <input type="number" id="waterfallCycles" name="adsConfig.waterfallCycles" value="3" min="1" max="10">
                     </div>
 
                     <div class="form-group">
@@ -455,9 +447,8 @@
         </div>
 
         <div class="player-section">
-            <h2>Player Preview</h2>
             <div class="player-container">
-                <div id="mainContainer" style="width: 640px; height: 480px; background: #000; border-radius: 8px;"></div>
+                <div id="mainContainer"></div>
             </div>
         </div>
     </div>
