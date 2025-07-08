@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAPlayer Test Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .form-section h2 {
+            margin: 0 0 20px 0;
+            color: #2c3e50;
+            font-size: 1.5em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .form-group input[type="number"] {
+            width: 100px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .player-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .player-container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .sub-section {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 15px;
+        }
+
+        .sub-section h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+            font-size: 1.2em;
+        }
+
+        .array-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .array-input input {
+            flex: 1;
+        }
+
+        .array-input button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .add-item-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>FAPlayer Test Page</h1>
+        <p>Configure and test your HTML5 video/audio player</p>
+    </div>
+
+    <div class="content">
+        <div class="form-section">
+            <h2>Player Configuration</h2>
+
+            <form id="playerConfigForm">
+                <!-- Basic Configuration -->
+                <div class="sub-section">
+                    <h3>Basic Settings</h3>
+
+                    <div class="form-group">
+                        <label for="holder">Holder Element ID:</label>
+                        <input type="text" id="holder" name="holder" value="mainContainer">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">Content Mode:</label>
+                        <select id="content" name="content">
+                            <option value="true">Enabled</option>
+                            <option value="false">Disabled</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="width">Width:</label>
+                        <input type="number" id="width" name="width" value="640" min="100" max="1920">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="height">Height:</label>
+                        <input type="number" id="height" name="height" value="480" min="100" max="1080">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="playerType">Player Type:</label>
+                        <select id="playerType" name="playerType">
+                            <option value="1">Video</option>
+                            <option value="2">Audio</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="startVolume">Start Volume:</label>
+                        <input type="number" id="startVolume" name="startVolume" value="1" min="0" max="1" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="autoplay" name="autoplay" checked>
+                            <label for="autoplay">Autoplay</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="viewability">Viewability Threshold:</label>
+                        <input type="number" id="viewability" name="viewability" value="0" min="0" max="100">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showUnmuteButton" name="showUnmuteButton" checked>
+                            <label for="showUnmuteButton">Show Unmute Button</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showTitle" name="showTitle">
+                            <label for="showTitle">Show Title</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Player Configuration -->
+                <div class="sub-section">
+                    <h3>Content Player Settings</h3>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="contentShowVolumeSlider" name="contentPlayerConfig.showVolumeSlider" checked>
+                            <label for="contentShowVolumeSlider">Show Volume Slider</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="contentShowDuration" name="contentPlayerConfig.showDuration">
+                            <label for="contentShowDuration">Show Duration</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="contentShowCountdown" name="contentPlayerConfig.showCountdown" checked>
+                            <label for="contentShowCountdown">Show Countdown</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ads Player Configuration -->
+                <div class="sub-section">
+                    <h3>Ads Player Settings</h3>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="adsShowVolumeSlider" name="adsPlayerConfig.showVolumeSlider" checked>
+                            <label for="adsShowVolumeSlider">Show Volume Slider</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="adsShowDuration" name="adsPlayerConfig.showDuration">
+                            <label for="adsShowDuration">Show Duration</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="adsShowCountdown" name="adsPlayerConfig.showCountdown" checked>
+                            <label for="adsShowCountdown">Show Countdown</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sticky Configuration -->
+                <div class="sub-section">
+                    <h3>Sticky Settings</h3>
+
+                    <div class="form-group">
+                        <label for="stickyMode">Sticky Mode:</label>
+                        <select id="stickyMode" name="stickyConfig.stickyMode">
+                            <option value="0">Disabled</option>
+                            <option value="1">Content Only</option>
+                            <option value="2">Ad Only</option>
+                            <option value="3" selected>Both</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stickyPosition">Sticky Position:</label>
+                        <select id="stickyPosition" name="stickyConfig.stickyPosition">
+                            <option value="1" selected>Bottom Left</option>
+                            <option value="2">Bottom Right</option>
+                            <option value="3">Top Left</option>
+                            <option value="4">Top Right</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="marginBottom">Margin Bottom:</label>
+                        <input type="number" id="marginBottom" name="stickyConfig.marginBottom" value="0" min="0" max="100">
+                    </div>
+                </div>
+
+                <!-- Ads Configuration -->
+                <div class="sub-section">
+                    <h3>Ads Settings</h3>
+
+                    <div class="form-group">
+                        <label for="tagURL">Tag URL:</label>
+                        <input type="url" id="tagURL" name="adsConfig.tagURL" value="http://localhost:8080/mock/tag_inline.json" placeholder="https://example.com/ad-tag.xml">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="preroll" name="adsConfig.preroll" checked>
+                            <label for="preroll">Preroll</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="postroll" name="adsConfig.postroll">
+                            <label for="postroll">Postroll</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="waterfallCycles">Waterfall Cycles:</label>
+                        <input type="number" id="waterfallCycles" name="adsConfig.waterfallCycles" value="3" min="1" max="10">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Midroll Cue Points:</label>
+                        <div id="midrollCuePoints">
+                            <div class="array-input">
+                                <input type="text" placeholder="30 or '00:30'" class="cue-point-input">
+                                <button type="button" class="remove-cue-point">Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-item-btn" id="addCuePoint">Add Cue Point</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Extra Trackers:</label>
+                        <div id="extraTrackers">
+                            <div class="array-input">
+                                <input type="url" placeholder="https://example.com/tracker" class="tracker-input">
+                                <button type="button" class="remove-tracker">Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-item-btn" id="addTracker">Add Tracker</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Update Player Configuration</button>
+            </form>
+
+            <div id="status" class="status" style="display: none;"></div>
+        </div>
+
+        <div class="player-section">
+            <h2>Player Preview</h2>
+            <div class="player-container">
+                <div id="mainContainer" style="width: 640px; height: 480px; background: #000; border-radius: 8px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Form handling and config injection
+    class PlayerTestPage {
+        constructor() {
+            this.form = document.getElementById('playerConfigForm');
+            this.status = document.getElementById('status');
+            this.playerInitialized = false;
+
+            this.initializeEventListeners();
+            this.setupArrayInputs();
+        }
+
+        initializeEventListeners() {
+            this.form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.updatePlayerConfig();
+            });
+
+            // Add cue point button
+            document.getElementById('addCuePoint').addEventListener('click', () => {
+                this.addArrayInput('midrollCuePoints', 'cue-point-input', 'Remove Cue Point');
+            });
+
+            // Add tracker button
+            document.getElementById('addTracker').addEventListener('click', () => {
+                this.addArrayInput('extraTrackers', 'tracker-input', 'Remove Tracker');
+            });
+        }
+
+        setupArrayInputs() {
+            // Setup remove buttons for existing array inputs
+            document.querySelectorAll('.remove-cue-point, .remove-tracker').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.target.closest('.array-input').remove();
+                });
+            });
+        }
+
+        addArrayInput(containerId, inputClass, buttonText) {
+            const container = document.getElementById(containerId);
+            const div = document.createElement('div');
+            div.className = 'array-input';
+            div.innerHTML = `
+                    <input type="text" placeholder="${inputClass === 'cue-point-input' ? '30 or \'00:30\'' : 'https://example.com/tracker'}" class="${inputClass}">
+                    <button type="button" class="remove-${inputClass.replace('-input', '')}">${buttonText}</button>
+                `;
+
+            div.querySelector('button').addEventListener('click', (e) => {
+                e.target.closest('.array-input').remove();
+            });
+
+            container.appendChild(div);
+        }
+
+        getFormData() {
+            const formData = new FormData(this.form);
+            const config = {};
+
+            // Process form data
+            for (let [key, value] of formData.entries()) {
+                this.setNestedValue(config, key, value);
+            }
+
+            // Process checkboxes
+            const checkboxes = this.form.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                this.setNestedValue(config, checkbox.name, checkbox.checked);
+            });
+
+            // Process array inputs
+            config.adsConfig = config.adsConfig || {};
+            config.adsConfig.midrollCuePoints = this.getArrayValues('.cue-point-input');
+            config.adsConfig.extraTrackers = this.getArrayValues('.tracker-input');
+
+            return config;
+        }
+
+        setNestedValue(obj, path, value) {
+            const keys = path.split('.');
+            let current = obj;
+
+            for (let i = 0; i < keys.length - 1; i++) {
+                if (!current[keys[i]]) {
+                    current[keys[i]] = {};
+                }
+                current = current[keys[i]];
+            }
+
+            current[keys[keys.length - 1]] = value;
+        }
+
+        getArrayValues(selector) {
+            const inputs = document.querySelectorAll(selector);
+            const values = [];
+
+            inputs.forEach(input => {
+                if (input.value.trim()) {
+                    values.push(input.value.trim());
+                }
+            });
+
+            return values;
+        }
+
+        validateConfig(config) {
+            const errors = [];
+
+            if (!config.content) {
+                errors.push('Content mode must be enabled');
+            }
+
+            if (!config.width || config.width < 100) {
+                errors.push('Width must be at least 100px');
+            }
+
+            if (!config.height || config.height < 100) {
+                errors.push('Height must be at least 100px');
+            }
+
+            if (!config.adsConfig.tagURL) {
+                errors.push('Tag URL is required');
+            }
+
+            if (!config.adsConfig.waterfallCycles || config.adsConfig.waterfallCycles < 1) {
+                errors.push('Waterfall cycles must be at least 1');
+            }
+
+            return errors;
+        }
+
+        showStatus(message, type = 'success') {
+            this.status.textContent = message;
+            this.status.className = `status ${type}`;
+            this.status.style.display = 'block';
+
+            setTimeout(() => {
+                this.status.style.display = 'none';
+            }, 5000);
+        }
+
+        updatePlayerConfig() {
+            try {
+                const config = this.getFormData();
+                const errors = this.validateConfig(config);
+
+                if (errors.length > 0) {
+                    this.showStatus('Validation errors: ' + errors.join(', '), 'error');
+                    return;
+                }
+
+                // Set the global config that FAPlayer will read
+                window.FAPlayerConfig = config;
+
+                // Update player container size
+                const playerContainer = document.getElementById('mainContainer');
+                playerContainer.style.width = config.width + 'px';
+                playerContainer.style.height = config.height + 'px';
+
+                if (!this.playerInitialized) {
+                    // First time - load the player script
+                    this.loadPlayerScript();
+                    this.playerInitialized = true;
+                } else {
+                    // Player already loaded - reload it with new config
+                    this.reloadPlayer();
+                }
+
+                this.showStatus('Configuration updated! Player will reload with new settings.', 'success');
+
+            } catch (error) {
+                console.error('Error updating config:', error);
+                this.showStatus('Error updating configuration: ' + error.message, 'error');
+            }
+        }
+
+        loadPlayerScript() {
+            const script = document.createElement('script');
+            script.src = './dist/fa_p_x13.js';
+            script.setAttribute('tag', 'http://localhost:8080/mock/tag_inline.json');
+            script.setAttribute('video-element', 'mainContainer');
+            document.body.appendChild(script);
+        }
+
+        reloadPlayer() {
+            // Remove existing player script
+            const existingScript = document.querySelector('script[src*="fa_p_x13.js"]');
+            if (existingScript) {
+                existingScript.remove();
+            }
+
+            // Clear the container
+            const container = document.getElementById('mainContainer');
+            container.innerHTML = '';
+
+            // Reload the player script
+            setTimeout(() => {
+                this.loadPlayerScript();
+            }, 100);
+        }
+    }
+
+    // Initialize the test page when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        new PlayerTestPage();
+    });
+</script>
+</body>
+</html>
