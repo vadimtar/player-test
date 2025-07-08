@@ -378,8 +378,8 @@
                     <div class="form-group">
                         <label for="stickyPosition">Sticky Position:</label>
                         <select id="stickyPosition" name="stickyConfig.stickyPosition">
-                            <option value="1" selected>Bottom Left</option>
-                            <option value="2">Bottom Right</option>
+                            <option value="1">Bottom Left</option>
+                            <option value="2" selected>Bottom Right</option>
                             <option value="3">Top Left</option>
                             <option value="4">Top Right</option>
                         </select>
@@ -531,6 +531,9 @@
             config.adsConfig.midrollCuePoints = this.getArrayValues('.cue-point-input');
             config.adsConfig.extraTrackers = this.getArrayValues('.tracker-input');
 
+            // Debug logging for player type
+            console.log('Form data - player type:', config.playerType, typeof config.playerType);
+
             return config;
         }
 
@@ -617,6 +620,18 @@
                 if (errors.length > 0) {
                     this.showStatus('Validation errors: ' + errors.join(', '), 'error');
                     return;
+                }
+
+                // Debug logging
+                console.log('Updated configuration:', config);
+                console.log('Player type:', config.playerType, typeof config.playerType);
+
+                // Check if player type has changed (this requires a complete reload)
+                const previousPlayerType = window.FAPlayerConfig ? window.FAPlayerConfig.playerType : null;
+                const playerTypeChanged = previousPlayerType !== null && previousPlayerType !== config.playerType;
+                
+                if (playerTypeChanged) {
+                    console.log('Player type changed from', previousPlayerType, 'to', config.playerType);
                 }
 
                 // Set the global config that FAPlayer will read
